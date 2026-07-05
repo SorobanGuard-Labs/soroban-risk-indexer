@@ -1,0 +1,42 @@
+{
+  "name": "soroban-risk-indexer",
+  "version": "1.0.0",
+  "description": "Open-source backend API for indexing Soroban project risk, audit readiness, security tasks, and test evidence.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "soroban",
+    "web3-security",
+    "risk-indexer",
+    "audit-readiness"
+  ],
+  "author": "SorobanGuard Labs",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.0",
+    "@types/supertest": "^7.2.0",
+    "eslint": "9.39.1",
+    "supertest": "^7.2.2",
+    "tsx": "^4.23.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.50.1",
+    "vitest": "^4.1.9"
+  }
+}
