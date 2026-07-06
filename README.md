@@ -13,6 +13,7 @@ It is designed for local-first and CI-friendly security workflows. The default r
 - TypeScript domain models for security tooling integrations.
 - Vitest and Supertest coverage for routes, scoring, mapping, storage, and adapters.
 - GitHub Actions CI for linting, typechecking, and tests.
+- Docker & Docker Compose support for standardized local environments.
 
 ## API endpoints
 
@@ -28,9 +29,17 @@ It is designed for local-first and CI-friendly security workflows. The default r
 
 ## Quick start
 
+### Using Node.js
+
 ```bash
 npm install
 npm run dev
+```
+### Using Docker Compose (Recommended)
+You can run the API in an isolated container without needing Node.js installed locally.
+
+```bash
+docker-compose up --build
 ```
 
 The API defaults to `http://localhost:4100`.
@@ -77,7 +86,6 @@ This project does not claim official affiliation with Stellar or Soroban.
 - GitHub issue import for security tasks.
 - Real test result ingestion from simulation tooling.
 - Filtering and pagination for list endpoints.
-- Docker setup for local and CI environments.
 - Integration contracts for Guard Kit and Testbench.
 
 ## Contributing

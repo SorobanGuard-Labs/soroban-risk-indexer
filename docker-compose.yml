@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soroban-risk-indexer
+    ports:
+      - "${PORT:-4100}:${PORT:-4100}"
+    env_file:
+      - .env
+    environment:
+      - PORT=${PORT:-4100}
+      - SOROBAN_RISK_INDEXER_MOCK_MODE=${SOROBAN_RISK_INDEXER_MOCK_MODE:-true}
+    restart: unless-stopped
