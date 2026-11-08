@@ -94,7 +94,9 @@ export class MockRiskAdapter implements RiskAdapter {
           "Admin-only functions have negative authorization tests",
           "CI runs the new tests on every pull request"
         ],
-        status: "in-progress" as const
+        status: "in-progress" as const,
+        source: "guard-kit" as const,
+        category: "authorization" as const
       },
       {
         id: "task-002",
@@ -103,7 +105,9 @@ export class MockRiskAdapter implements RiskAdapter {
         labels: ["readiness", "documentation"],
         difficulty: "easy" as const,
         acceptanceCriteria: ["Checklist is linked from the repository readme"],
-        status: "done" as const
+        status: "done" as const,
+        source: "manual" as const,
+        category: "readiness" as const
       },
       {
         id: "task-003",
@@ -115,7 +119,9 @@ export class MockRiskAdapter implements RiskAdapter {
           "Transient RPC failure scenario is recorded",
           "Permanent failure scenario includes operator guidance"
         ],
-        status: "todo" as const
+        status: "todo" as const,
+        source: "guard-kit" as const,
+        category: "resilience" as const
       }
     ];
 
@@ -126,6 +132,7 @@ export class MockRiskAdapter implements RiskAdapter {
         scenario: "admin unauthorized deposit freeze",
         status: "passed" as const,
         durationMs: 128,
+        simulationType: "auth_boundary" as const,
         timestamp
       },
       {
@@ -135,6 +142,13 @@ export class MockRiskAdapter implements RiskAdapter {
         status: "failed" as const,
         durationMs: 930,
         failureReason: "Submission retry policy was not configured in mock mode.",
+        simulationType: "rpc_failure" as const,
+        rpcDetails: {
+          endpoint: "https://soroban-testnet.stellar.org",
+          rpcError: "GatewayTimeout (504)",
+          retryAttempts: 3,
+          transient: true
+        },
         timestamp
       }
     ];

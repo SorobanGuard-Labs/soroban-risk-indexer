@@ -4,93 +4,91 @@ Soroban Risk Indexer is an open-source backend API from SorobanGuard Labs for in
 
 It is designed for local-first and CI-friendly security workflows. The default runtime uses mock data only, with no secrets, private keys, signing, wallet logic, or official affiliation with Stellar or Soroban.
 
+---
+
 ## Features
 
-- Express API for project, risk, finding, task, and test result data.
-- Deterministic mock indexing through `POST /index/mock`.
-- In-memory storage adapter for development and tests.
-- Readiness and risk scoring helpers.
-- TypeScript domain models for security tooling integrations.
-- Vitest and Supertest coverage for routes, scoring, mapping, storage, and adapters.
-- GitHub Actions CI for linting, typechecking, and tests.
-- Docker & Docker Compose support for standardized local environments.
+- **Express API**: Modular endpoints for project readiness, contract risks, audit findings, contributor tasks, and test results.
+- **Soroban Guard Kit Integration**: Structured ingestion mapping for audit readiness checklists and contributor security tasks.
+- **Soroban Testbench Integration**: Representation of transaction simulations, RPC failure evidence, and execution trace evidence.
+- **OpenAPI 3.0 Documentation**: Machine-readable specification at [`docs/openapi.yaml`](docs/openapi.yaml).
+- **Deterministic Mock Indexing**: Triggered via `POST /index/mock` with atomic in-memory state refreshes.
+- **In-Memory Storage Adapter**: Fast, zero-dependency storage for development, testing, and CI pipelines.
+- **Audit Readiness & Risk Scoring**: Mathematical scoring models aggregating open risk severities and completed verification milestones.
+- **Docker & Container Ready**: Multi-stage production `Dockerfile`, `docker-compose.yml`, and active healthcheck monitoring.
+- **Complete Test Suite**: Vitest and Supertest coverage for routes, scoring models, and integration adapters.
 
-## API endpoints
+---
+
+## API Endpoints
 
 | Method | Path | Description |
-| --- | --- | --- |
-| GET | `/health` | Service health check. |
-| GET | `/projects` | List indexed projects and readiness scores. |
-| GET | `/risks` | List contract and operational risks. |
-| GET | `/findings` | List audit findings. |
-| GET | `/tasks` | List contributor security and readiness tasks. |
-| GET | `/test-results` | List test and simulation results. |
-| POST | `/index/mock` | Refresh the in-memory store from the mock adapter. |
+| :--- | :--- | :--- |
+| `GET` | `/health` | Service health and liveness check. |
+| `GET` | `/projects` | List indexed projects with readiness and risk scores. |
+| `GET` | `/risks` | List contract, architectural, and operational risks. |
+| `GET` | `/findings` | List audit findings across indexed projects. |
+| `GET` | `/tasks` | List contributor security tasks (Guard Kit and manual checklists). |
+| `GET` | `/test-results` | List test and simulation results (supports `status`, `projectId`, `simulationType`). |
+| `POST` | `/index/mock` | Refresh the in-memory store from the mock adapter. |
 
-## Quick start
+For detailed schemas and interactive documentation, see [API Reference](docs/api-reference.md) and [OpenAPI Specification](docs/openapi.yaml).
 
-### Using Node.js
+---
+
+## Quick Start
+
+### Using Node.js (v22+)
 
 ```bash
 npm install
 npm run dev
 ```
+
+The API will start at `http://localhost:4100`.
+
 ### Using Docker Compose (Recommended)
-You can run the API in an isolated container without needing Node.js installed locally.
 
 ```bash
 docker-compose up --build
 ```
 
-The API defaults to `http://localhost:4100`.
+---
 
-```bash
-curl http://localhost:4100/health
-curl http://localhost:4100/projects
-```
+## Environment Variables
 
-## Environment variables
-
-Copy `.env.example` to `.env` for local development when you want explicit configuration.
+Copy `.env.example` to `.env` for local configuration:
 
 | Variable | Default | Description |
-| --- | --- | --- |
-| `PORT` | `4100` | HTTP server port. |
-| `SOROBAN_RISK_INDEXER_MOCK_MODE` | `true` | Keeps the service in mock-data mode. |
+| :--- | :--- | :--- |
+| `PORT` | `4100` | HTTP server listening port. |
+| `NODE_ENV` | `development` | Runtime environment (`development` / `production`). |
+| `SOROBAN_RISK_INDEXER_MOCK_MODE` | `true` | Keeps service in deterministic mock mode. |
+| `CORS_ORIGIN` | `*` | Allowed CORS origins for browser dashboards. |
 
-## Mock mode
+---
 
-Mock mode is the only implemented ingestion mode in this repository. It provides deterministic example data for:
+## Relationship to Other Repositories
 
-- Soroban project readiness.
-- Contract and workflow risk categories.
-- Audit-style findings.
-- Contributor security tasks.
-- Testbench-style failure scenarios.
+Soroban Risk Indexer supports the SorobanGuard Labs ecosystem:
 
-Future adapters can replace the in-memory store and mock adapter without changing the API contract.
+- **[Soroban Guard Kit](docs/architecture.md#3-soroban-guard-kit-integration)**: Evaluates contract authorization and storage patterns, producing audit readiness checklists and contributor security tasks.
+- **[Soroban Testbench](docs/architecture.md#4-soroban-testbench-integration)**: Simulates transaction execution, RPC timeouts, and budget footprints, providing structured failure evidence.
+- **Soroban Risk Indexer**: Aggregates, indexes, scores, and exposes security data for dashboards and maintainers.
 
-## Relationship to other repos
+---
 
-Soroban Risk Indexer is intended to support the SorobanGuard Labs ecosystem:
+## Deployment
 
-- **Soroban Guard Kit** creates audit readiness and security tasks.
-- **Soroban Testbench** simulates transaction and RPC failure scenarios.
-- **Soroban Risk Indexer** stores and exposes risk, test, and readiness data.
+For hosted deployments, containerization, systemd process management, and production considerations, refer to the [Deployment Guide](docs/deployment.md).
 
-This project does not claim official affiliation with Stellar or Soroban.
-
-## Roadmap
-
-- Database-backed storage adapter.
-- GitHub issue import for security tasks.
-- Real test result ingestion from simulation tooling.
-- Filtering and pagination for list endpoints.
-- Integration contracts for Guard Kit and Testbench.
+---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow, testing expectations, and contribution guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local development workflows and pull request guidelines.
+
+---
 
 ## License
 
