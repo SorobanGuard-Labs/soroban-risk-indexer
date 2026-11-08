@@ -42,6 +42,21 @@ describe("api routes", () => {
     });
   });
 
+  it("filters test results by status and simulationType", async () => {
+    const failedResponse = await request(app).get("/test-results?status=failed");
+    expect(failedResponse.status).toBe(200);
+    expect(failedResponse.body.data.length).toBe(1);
+    expect(failedResponse.body.data[0].status).toBe("failed");
+    expect(failedResponse.body.data[0].simulationType).toBe("rpc_failure");
+    expect(failedResponse.body.data[0].rpcDetails).toBeDefined();
+    expect(failedResponse.body.data[0].rpcDetails.transient).toBe(true);
+
+    const authResponse = await request(app).get("/test-results?simulationType=auth_boundary");
+    expect(authResponse.status).toBe(200);
+    expect(authResponse.body.data.length).toBe(1);
+    expect(authResponse.body.data[0].scenario).toBe("admin unauthorized deposit freeze");
+  });
+
   it("returns a 404 for unknown routes", async () => {
     const response = await request(app).get("/missing");
 
